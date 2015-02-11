@@ -2,7 +2,7 @@
 title: "Activity Monitoring (Peer Assessment 1)"
 author: "Ke Li"
 date: "02/10/2015"
-output: html_document
+output: pdf_document
 ---
 Activity monitoring devices measuring human movements regularly is aiming to find patterns in human behavior, and improve human health. 
 Data is downloaded from [Activity monitoring data](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip) to explore insight of monintered steps every 5 minuntes daily from October 1st to November 30th 2012.
@@ -59,8 +59,8 @@ activity$date = NULL
 par(mfrow = c(1, 1), mar = c(4, 4, 1 , 1), oma = c(1, 1, 0, 0))
 hist(activity$steps, ylim = c(0, 15000))
 # to save it:
-#dev.copy(png, file ='histogram.png')
-#dev.off()
+dev.copy(png, file ='./figures/histogram.png')
+dev.off()
 ```
 2. The mean and median total number of steps taken per day are calculated as:
 ```{r}
@@ -79,8 +79,8 @@ intervalDaily = unique(activity$interval)
 plot(intervalDaily, intervalMean, type='l', main = 'Average steps and daily interval',
      xlab='5-minute interval', ylab='average steps')
 # to save the plot into file:
-#dev.copy(png, file ='5minAve.png')
-#dev.off()
+dev.copy(png, file ='./figures/5minAve.png')
+dev.off()
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -122,8 +122,8 @@ hist(activity$steps, ylim = c(0, 15000), breaks=40, main = 'Histogram of raw Dat
 mtext('Steps', out=T, side=1)
 mtext('Frequency', out=T, side=2)
 # to save this plot:
-#dev.copy(png, file ='histogram_filled.png')
-#dev.off()
+dev.copy(png, file ='./figures/histogram_filled.png')
+dev.off()
 ```
 ## Are there differences in activity patterns between weekdays and weekends?
 1. A new factor variable in the dataset is created with two levels -"weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
@@ -145,7 +145,7 @@ plot(intervalDaily, meanDaily[, 2], type='l', main = 'Weekday', xlab='interval',
      ylim = c(0, 250))
 mtext('Number of steps', outer=T, side=2)
 mtext('Interval', outer=T, side=1)
-#dev.copy(png, file ='weekdays.png')
-#dev.off()
+dev.copy(png, file ='./figures/weekdays.png')
+dev.off()
 ```
 It appears that there is a difference between weekdays and weekends regarding the steps taken. During the weekends, average number of steps peaks around 9:00am. During the weekdays, the average steps are relatively more evenly distributed along the day time period. 

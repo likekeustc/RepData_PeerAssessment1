@@ -29,9 +29,10 @@ list.files()
 
 ```
 ##  [1] "Abcd1234"          "Abcd1234.pub"      "activity.csv"     
-##  [4] "activity.zip"      "doc"               "figures"          
-##  [7] "instructions_fig"  "missfont.log"      "PA1_template.html"
-## [10] "PA1_template.Rmd"  "q.log"             "README.md"
+##  [4] "activity.zip"      "doc"               "figure"           
+##  [7] "figures"           "instructions_fig"  "missfont.log"     
+## [10] "PA1_template.html" "PA1_template.md"   "PA1_template.Rmd" 
+## [13] "q.log"             "README.md"
 ```
 Read in 'activity.csv', using 'read.csv()' in R. Name the read-in data 'activity':
 
@@ -108,8 +109,21 @@ hist(activity$steps, ylim = c(0, 15000))
 
 ```r
 # to save it:
-#dev.copy(png, file ='histogram.png')
-#dev.off()
+dev.copy(png, file ='./figures/histogram.png')
+```
+
+```
+## png 
+##   3
+```
+
+```r
+dev.off()
+```
+
+```
+## png 
+##   2
 ```
 2. The mean and median total number of steps taken per day are calculated as:
 
@@ -146,8 +160,21 @@ plot(intervalDaily, intervalMean, type='l', main = 'Average steps and daily inte
 
 ```r
 # to save the plot into file:
-#dev.copy(png, file ='5minAve.png')
-#dev.off()
+dev.copy(png, file ='./figures/5minAve.png')
+```
+
+```
+## png 
+##   3
+```
+
+```r
+dev.off()
+```
+
+```
+## png 
+##   2
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -176,14 +203,6 @@ table(is.na(activity$steps))
 
 ```r
 library(data.table)
-```
-
-```
-## data.table 1.9.4  For help type: ?data.table
-## *** NB: by=.EACHI is now explicit. See README to restore previous behaviour.
-```
-
-```r
 DT = data.table(activity)
 #In DT, a new variable 'intervalMean' is set to take the mean of the subsets of records, categorized by interval values
 DT[, intervalMean := mean(steps, na.rm=T), by=interval]
@@ -258,8 +277,21 @@ mtext('Frequency', out=T, side=2)
 
 ```r
 # to save this plot:
-#dev.copy(png, file ='histogram_filled.png')
-#dev.off()
+dev.copy(png, file ='./figures/histogram_filled.png')
+```
+
+```
+## png 
+##   3
+```
+
+```r
+dev.off()
+```
+
+```
+## png 
+##   2
 ```
 ## Are there differences in activity patterns between weekdays and weekends?
 1. A new factor variable in the dataset is created with two levels -"weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
@@ -288,7 +320,20 @@ mtext('Interval', outer=T, side=1)
 ![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png) 
 
 ```r
-#dev.copy(png, file ='weekdays.png')
-#dev.off()
+dev.copy(png, file ='./figures/weekdays.png')
+```
+
+```
+## png 
+##   3
+```
+
+```r
+dev.off()
+```
+
+```
+## png 
+##   2
 ```
 It appears that there is a difference between weekdays and weekends regarding the steps taken. During the weekends, average number of steps peaks around 9:00am. During the weekdays, the average steps are relatively more evenly distributed along the day time period. 

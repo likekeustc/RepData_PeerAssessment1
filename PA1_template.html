@@ -63,16 +63,16 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
 <p>The data can be downloaded from <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip">Activity monitoring data</a>, and saved as ‘activity.zip’</p>
-<pre class="r"><code>#url = 'https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip'
-#download.file(url, 'activity.zip', method='wget')</code></pre>
+<pre class="r"><code>url = 'https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip'
+download.file(url, 'activity.zip', method='wget')</code></pre>
 <p>Decompress the zip data, using the ‘unzip()’ command in R:</p>
-<pre class="r"><code>#unzip('./activity.zip')</code></pre>
+<pre class="r"><code>unzip('./activity.zip')</code></pre>
 <p>After unzipping, find the file ‘activity.csv’:</p>
 <pre class="r"><code>list.files()</code></pre>
-<pre><code>##  [1] &quot;5minAve.png&quot;          &quot;activity.csv&quot;         &quot;activity.zip&quot;        
-##  [4] &quot;histogram_filled.png&quot; &quot;histogram.png&quot;        &quot;markdown_demo&quot;       
-##  [7] &quot;PA1_template.html&quot;    &quot;PA1_template.rmd&quot;     &quot;program.r&quot;           
-## [10] &quot;#spam.r#&quot;             &quot;spam.r&quot;               &quot;weekdays.png&quot;</code></pre>
+<pre><code>##  [1] &quot;Abcd1234&quot;          &quot;Abcd1234.pub&quot;      &quot;activity.csv&quot;     
+##  [4] &quot;activity.zip&quot;      &quot;doc&quot;               &quot;figures&quot;          
+##  [7] &quot;instructions_fig&quot;  &quot;PA1_template.html&quot; &quot;PA1_template.Rmd&quot; 
+## [10] &quot;README.md&quot;         &quot;test.html&quot;</code></pre>
 <p>Read in ‘activity.csv’, using ‘read.csv()’ in R. Name the read-in data ‘activity’:</p>
 <pre class="r"><code>activity = read.csv('./activity.csv',
                     colClasses = c('numeric', 'factor', 'numeric'))</code></pre>

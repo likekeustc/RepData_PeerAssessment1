@@ -98,7 +98,7 @@ activity$dateformat = as.Date(activity$date, format = '%Y-%m-%d')
 activity$date = NULL
 ```
 ## What is mean total number of steps taken per day?
-* The histogram of the total number of steps taken each day is plotted as following:
+1. The histogram of the total number of steps taken each day is plotted as following:
 
 ```r
 par(mfrow = c(1, 1), mar = c(4, 4, 1 , 1), oma = c(1, 1, 0, 0))
@@ -125,7 +125,7 @@ dev.off()
 ## png 
 ##   2
 ```
-* The mean and median total number of steps taken per day are calculated as:
+2. The mean and median total number of steps taken per day are calculated as:
 
 ```r
 mean(activity$steps, na.rm=T)
@@ -143,7 +143,7 @@ median(activity$steps, na.rm=T)
 ## [1] 0
 ```
 ##  What is the average daily activity pattern
-* Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
+1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
 
 ```r
 #intervalMean is the mean of the steps at each 5 minute interval over all the days
@@ -177,7 +177,7 @@ dev.off()
 ##   2
 ```
 
-* Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 intervalDaily[which.max(intervalMean)]
@@ -187,7 +187,7 @@ intervalDaily[which.max(intervalMean)]
 ## [1] 835
 ```
 ## Imputing missing values
-* Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
 ```r
 table(is.na(activity$steps))
@@ -199,7 +199,7 @@ table(is.na(activity$steps))
 ## 15264  2304
 ```
 
-* To fill the NAs in the data 'activity', strategy is developed to replace NAs with the average steps at the minute interval when the step is recorded over the days. To develop this strategy, the data 'activity' is duplicated to a data table called 'DT'.
+2. To fill the NAs in the data 'activity', strategy is developed to replace NAs with the average steps at the minute interval when the step is recorded over the days. To develop this strategy, the data 'activity' is duplicated to a data table called 'DT'.
 
 ```r
 library(data.table)
@@ -222,13 +222,13 @@ DT[, intervalMean := mean(steps, na.rm=T), by=interval]
 ## 17567:    NA     2350 2012-11-30    0.2264151
 ## 17568:    NA     2355 2012-11-30    1.0754717
 ```
-* Fill in the NAs in the new data set (DT):
+3. Fill in the NAs in the new data set (DT):
 
 ```r
 DT[is.na(steps),]$steps = DT[is.na(steps),]$intervalMean
 ```
 
-* With all the NAs filled in step variable (DT), the mean and median are calculated to compare with the steps in raw data activity with NAs (activity). The means and medians before and after filling NAs with means are the same.
+4. With all the NAs filled in step variable (DT), the mean and median are calculated to compare with the steps in raw data activity with NAs (activity). The means and medians before and after filling NAs with means are the same.
 
 ```r
 mean(DT$steps, na.rm=T)
@@ -294,7 +294,7 @@ dev.off()
 ##   2
 ```
 ## Are there differences in activity patterns between weekdays and weekends?
-* A new factor variable in the dataset is created with two levels -"weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+1. A new factor variable in the dataset is created with two levels -"weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
 ```r
 # convert formatted date as weekdays using weekdays()
@@ -305,7 +305,7 @@ activity$daytype[!((weekdays(activity$dateformat) == 'Saturday')
 # convert the daytype to factor from character
 activity$daytype = as.factor(activity$daytype)
 ```
-* A panel plot is made containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis):
+2. A panel plot is made containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis):
 
 ```r
 meanDaily = with(activity, tapply(steps, list(interval, daytype), mean, na.rm=T))

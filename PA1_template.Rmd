@@ -1,5 +1,5 @@
 ---
-title: Activity Monitoring (Peer Assessment 1)
+title: "Activity Monitoring (Peer Assessment 1)"
 author: "Ke Li"
 date: "02/10/2015"
 output: html_document
@@ -12,12 +12,12 @@ Data is downloaded from [Activity monitoring data](https://d396qusza40orc.cloudf
 The data can be downloaded from [Activity monitoring data](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip), and saved as 'activity.zip'
 
 ```{r}
-#url = 'https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip'
-#download.file(url, 'activity.zip', method='wget')
+url = 'https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip'
+download.file(url, 'activity.zip', method='wget')
 ```
 Decompress the zip data, using the 'unzip()' command in R:
 ```{r}
-#unzip('./activity.zip')
+unzip('./activity.zip')
 ```
 After unzipping, find the file 'activity.csv':
 ```{r}

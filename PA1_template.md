@@ -98,49 +98,44 @@ activity$dateformat = as.Date(activity$date, format = '%Y-%m-%d')
 activity$date = NULL
 ```
 ## What is mean total number of steps taken per day?
-1. The histogram of the total number of steps taken each day is plotted as following:
+1. To plot the histogram, first of all, the sum of all steps are calculated. 
+
+```r
+daily = tapply(activity$steps, activity$dateformat, sum, na.rm=T)
+```
+The histogram of the total number of steps taken each day is plotted as following:
 
 ```r
 par(mfrow = c(1, 1), mar = c(4, 4, 1 , 1), oma = c(1, 1, 0, 0))
-hist(activity$steps, ylim = c(0, 15000))
+hist(daily, xlab='number of steps', main='histogram of daily steps taken')
+abline(v=mean(daily, na.rm=T), col = 'red')
+abline(v=median(daily, na.rm=T), col = 'blue')
+legend(20000, 20, c('mean', 'median'), lty=c(1, 1),col = c('red', 'blue'))
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
 
 ```r
 # to save it:
-dev.copy(png, file ='./figures/histogram.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
+#dev.copy(png, file ='./figures/histogram.png')
+#dev.off()
 ```
 2. The mean and median total number of steps taken per day are calculated as:
 
 ```r
-mean(activity$steps, na.rm=T)
+mean(daily, na.rm=T)
 ```
 
 ```
-## [1] 37.3826
+## [1] 9354.23
 ```
 
 ```r
-median(activity$steps, na.rm=T)
+median(daily, na.rm=T)
 ```
 
 ```
-## [1] 0
+## [1] 10395
 ```
 ##  What is the average daily activity pattern
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
@@ -156,25 +151,12 @@ plot(intervalDaily, intervalMean, type='l', main = 'Average steps and daily inte
      xlab='5-minute interval', ylab='average steps')
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
 
 ```r
 # to save the plot into file:
-dev.copy(png, file ='./figures/5minAve.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
+#dev.copy(png, file ='./figures/5minAve.png')
+#dev.off()
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -228,70 +210,70 @@ DT[, intervalMean := mean(steps, na.rm=T), by=interval]
 DT[is.na(steps),]$steps = DT[is.na(steps),]$intervalMean
 ```
 
-4. With all the NAs filled in step variable (DT), the mean and median are calculated to compare with the steps in raw data activity with NAs (activity). The means and medians before and after filling NAs with means are the same.
+4. With all the NAs filled in step variable (DT), the daily steps taken are calculated and passed to the variable 'daily_fill':
 
 ```r
-mean(DT$steps, na.rm=T)
+daily_fill =tapply(DT$steps, DT$dateformat, sum, na.rm=T)
 ```
 
-```
-## [1] 37.3826
-```
+the mean and median are calculated to compare with the steps in raw data activity with NAs (activity). After filling the NAs the median and mean become the same(10766.19) while before filling up NAs, median (10395) is bigger than mean (9354.23). The way to calculate means and medians for both daily steps with NAs or filledups are listed for comparison.
 
 ```r
-mean(activity$steps, na.rm=T)
+mean(daily, na.rm=T)
 ```
 
 ```
-## [1] 37.3826
+## [1] 9354.23
 ```
 
 ```r
-median(DT$steps, na.rm=T)
+mean(daily_fill, na.rm=T)
 ```
 
 ```
-## [1] 0
+## [1] 10766.19
 ```
 
 ```r
-median(activity$steps, na.rm=T)
+median(daily, na.rm=T)
 ```
 
 ```
-## [1] 0
+## [1] 10395
 ```
-Two histograms of steps in DT and activity are plotted to compare. Both histograms before and after filling NAs with means are almost the same. 
+
+```r
+median(daily_fill, na.rm=T)
+```
+
+```
+## [1] 10766.19
+```
+
+Two histograms of steps in DT and activity are plotted to compare. Number of bins are chosen to be 10 to reveal the more detailed change due to filling NAs. First of all, the peak value of filled-in data (20-25 in frequency) is higher than one of raw data (around 17 in frequency). The frequency around "zero" bin of filled-in data (<5) is lower than raw data (around 10). This indicates that filling the NAs with interval mean would truly recognize the days of absolutely no steps from days of limited records that result in 'zero' steps. 
+
+Secondly, as said in the previous point, the median and mean overlap at filled-in data, but not the same at raw data.
 
 ```r
 par(mfrow = c(2, 1), mar = c(2, 2, 1 , 1), oma = c(1, 1, 0, 0))
-hist(DT$steps, ylim=c(0, 15000), breaks = 40, main ='Histogram of Filled-in Data')
-#abline(v = mean(DT$steps, na.rm=T), col = 'red')
-hist(activity$steps, ylim = c(0, 15000), breaks=40, main = 'Histogram of raw Data')
-#abline(v = mean(activity$steps, na.rm=T), col = 'red')
+hist(daily_fill, breaks = 10, ylim=c(1,25), main ='Histogram of Filled-in Data')
+abline(v = mean(daily_fill), col = 'red')
+abline(v = median(daily_fill), col = 'blue')
+legend(15000, 20, c('mean', 'median'), lty=c(1, 1),col = c('red', 'blue'))
+hist(daily, breaks=10, ylim=c(1,25),main = 'Histogram of raw Data')
+abline(v = mean(daily), col = 'red')
+abline(v = median(daily), col = 'blue')
+legend(15000, 20, c('mean', 'median'), lty=c(1, 1),col = c('red', 'blue'))
 mtext('Steps', out=T, side=1)
 mtext('Frequency', out=T, side=2)
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17-1.png) 
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png) 
 
 ```r
 # to save this plot:
-dev.copy(png, file ='./figures/histogram_filled.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
+#dev.copy(png, file ='./figures/histogram_filled.png')
+#dev.off()
 ```
 ## Are there differences in activity patterns between weekdays and weekends?
 1. A new factor variable in the dataset is created with two levels -"weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
@@ -317,23 +299,10 @@ mtext('Number of steps', outer=T, side=2)
 mtext('Interval', outer=T, side=1)
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png) 
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21-1.png) 
 
 ```r
-dev.copy(png, file ='./figures/weekdays.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
+#dev.copy(png, file ='./figures/weekdays.png')
+#dev.off()
 ```
 It appears that there is a difference between weekdays and weekends regarding the steps taken. During the weekends, average number of steps peaks around 9:00am. During the weekdays, the average steps are relatively more evenly distributed along the day time period. 
